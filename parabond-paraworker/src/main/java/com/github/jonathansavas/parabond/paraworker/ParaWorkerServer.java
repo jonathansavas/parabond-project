@@ -1,8 +1,9 @@
 // https://grpc.io/docs/tutorials/basic/java/
 // https://developers.google.com/protocol-buffers/docs/proto3#simple
 
-package com.github.jonathansavas.parabond.ParaWorker;
+package com.github.jonathansavas.parabond.paraworker;
 
+import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -11,7 +12,6 @@ import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.Result;
 
 import java.io.IOException;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class ParaWorkerServer {
   private static final Logger logger = Logger.getLogger(ParaWorkerServer.class.getName());

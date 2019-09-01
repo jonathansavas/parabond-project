@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "com.github.jonathansavas.parabond.ParaDispatcher";
+option java_outer_classname = "ParaDispatcherProto";
+
+service ParaDispatcher {
+    rpc dispatch(JobSize) returns (JobInfo) {}
+}
+
+message JobSize {
+    int32 n = 1;
+}
+
+message JobInfo {
+    int64 t1 = 1;
+    int64 tN = 2;
+    int32 misses = 3;
+}

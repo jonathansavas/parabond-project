@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "com.github.jonathansavas.parabond.ParaWorker";
+option java_outer_classname = "ParaWorkerProto";
+
+service ParaWorker {
+    rpc work(Partition) returns (Result) {}
+}
+
+message Partition {
+    int32 n = 1;
+    int32 begin = 2;
+    int32 seed = 3;
+    bool para = 4;
+    int32 size = 5;
+}
+
+message Result {
+    int32 portfId = 1;
+    double value = 2;
+    int32 bondCount = 3;
+    int64 t0 = 4;
+    int64 t1 = 5;
+}

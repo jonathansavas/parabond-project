@@ -11,10 +11,11 @@ import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.JobI
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.JobSize;
 
 import java.io.IOException;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ParaDispatcherServer {
-  private static final Logger logger = Logger.getLogger(ParaDispatcherServer.class.getName());
+  private static final Logger logger = LogManager.getLogger(ParaDispatcherServer.class.getName());
 
   private final int port;
   private final Server server;
@@ -27,6 +28,26 @@ public class ParaDispatcherServer {
   public void start() throws IOException {
     server.start();
     logger.info("Server started, listening on port " + port);
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        System.err.println("*** shutting down gRPC server since JVM is shutting down");
+        ParaDispatcherServer.this.stop();
+        System.err.println("*** server shut down");
+      }
+    });
+  }
+
+  public void stop() {
+    if (server != null) {
+      server.shutdown();
+    }
+  }
+
+  private void blockUntilShutdown() throws InterruptedException {
+    if (server != null) {
+      server.awaitTermination();
+    }
   }
 
   private static class ParaDispatcherService extends ParaDispatcherGrpc.ParaDispatcherImplBase {

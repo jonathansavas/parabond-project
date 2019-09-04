@@ -1,14 +1,15 @@
 // https://grpc.io/docs/tutorials/basic/java/
 // https://developers.google.com/protocol-buffers/docs/proto3#simple
 
-package com.github.jonathansavas.parabond.paraworker;
+package com.github.jonathansavas.parabond.paraworker.java;
 
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc;
+import com.github.jonathansavas.parabond.paraworker.scala.ParaWorker;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.Partition;
-import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.Result;
+import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcPartition;
+import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcResult;
 
 import java.io.IOException;
 
@@ -17,9 +18,14 @@ import org.apache.logging.log4j.Logger;
 
 public class ParaWorkerServer {
   private static final Logger logger = LogManager.getLogger(ParaWorkerServer.class);
+  private static final int DEFAULT_PORT = 9999;
 
   private final int port;
   private final Server server;
+
+  public ParaWorkerServer() {
+    this(DEFAULT_PORT);
+  }
 
   public ParaWorkerServer(int port) {
     this.port = port;
@@ -52,7 +58,7 @@ public class ParaWorkerServer {
   }
 
   public static void main(String[] args) throws InterruptedException {
-    int port = ParaWorkerUtil.getPortOrElse(9999);
+    int port = ParaWorkerUtil.getPortOrElse(DEFAULT_PORT);
 
     ParaWorkerServer server = new ParaWorkerServer(port);
 
@@ -68,7 +74,7 @@ public class ParaWorkerServer {
   private static class ParaWorkerService extends ParaWorkerGrpc.ParaWorkerImplBase {
 
     @Override
-    public void work(Partition partition, StreamObserver<Result> responseObserver) {
+    public void work(GrpcPartition partition, StreamObserver<GrpcResult> responseObserver) {
       responseObserver.onNext(new ParaWorker().work(partition));
       responseObserver.onCompleted();
     }

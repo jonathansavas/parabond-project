@@ -32,6 +32,11 @@
             <artifactId>parabond-protobuf</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.roncoleman125</groupId>
+            <artifactId>ParaScale</artifactId>
+            <version>20190209</version>
+        </dependency>
     </dependencies>
 
     <build>

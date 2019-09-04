@@ -10,8 +10,11 @@
     </Appenders>
     <Loggers>
         <Root level="debug">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="MyFile"/>
+            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="MyFile" level="debug"/>
         </Root>
+        <Logger name="org.mongodb.driver.*" level="warn"/>
+        <Logger name="org.mongodb.driver.protocol.query" level="warn" />
+        <Logger name="org.mongodb.driver.protocol.update" level="warn" />
     </Loggers>
 </Configuration>

@@ -1,24 +1,32 @@
-package com.github.jonathansavas.parabond.paradispatcher;
+package com.github.jonathansavas.parabond.paraworker.java;
 
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc;
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc.ParaWorkerBlockingStub;
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc.ParaWorkerStub;
-import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.Result;
-import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.Partition;
+import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcResult;
+import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcPartition;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.concurrent.TimeUnit;
 
 public class ParaWorkerClient {
   private static final Logger logger = LogManager.getLogger(ParaWorkerClient.class);
+  private static final int DEFAULT_PORT = 9999;
 
   private final ManagedChannel channel;
   private final ParaWorkerBlockingStub blockingStub;
   private final ParaWorkerStub asyncStub;
+
+  public ParaWorkerClient() {
+    this("localhost", DEFAULT_PORT);
+  }
+
+  public ParaWorkerClient(String host) {
+    this(host, DEFAULT_PORT);
+  }
 
   /**
    * Construct client to ParaWorkerServer at host:port
@@ -26,15 +34,15 @@ public class ParaWorkerClient {
    * @param port Port number the server is listening on
    */
   public ParaWorkerClient(String host, int port) {
-    this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
+    this(ManagedChannelBuilder.forAddress(host, port).usePlaintext().build());
   }
 
   /**
    * Construct client to ParaWorkerServer using existing channel.
-   * @param channelBuilder
+   * @param channel
    */
-  public ParaWorkerClient(ManagedChannelBuilder<?> channelBuilder) {
-    this.channel = channelBuilder.build();
+  public ParaWorkerClient(ManagedChannel channel) {
+    this.channel = channel;
     this.blockingStub = ParaWorkerGrpc.newBlockingStub(channel);
     this.asyncStub = ParaWorkerGrpc.newStub(channel);
   }
@@ -43,9 +51,9 @@ public class ParaWorkerClient {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
-  public Result priceBonds(int n) {
-    Partition partition = Partition.newBuilder().setN(n).build();
-    Result result;
+  public GrpcResult priceBonds(int n, int begin) {
+    GrpcPartition partition = GrpcPartition.newBuilder().setN(n).setBegin(begin).build();
+    GrpcResult result;
     try {
       result = blockingStub.work(partition);
     } catch (StatusRuntimeException e) {

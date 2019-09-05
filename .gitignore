@@ -28,3 +28,5 @@ target/
 out/
 */extracted/*
 lib_managed/*
+bonds.txt
+portfs.txt

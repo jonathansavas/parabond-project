@@ -21,15 +21,7 @@ class ParaWorker {
   def work(grpcPartition: GrpcPartition): GrpcResult = {
     val partition = Partition(grpcPartition.getN, grpcPartition.getBegin)
 
-    logger.info("Analyzing partition {}", partition)
-
     val analysis = node.analyze(partition)
-
-    analysis.results.foreach { jo =>
-      logger.debug("DEBUG PORTFID {} PARAWORKER", jo.portfId)
-    }
-
-    logger.info("Received analysis for partition {}", partition)
 
     val partialT1 = analysis.results.foldLeft(0L) { (sum, job) =>
       val time = job.result.t1 - job.result.t0

@@ -5,7 +5,7 @@ import com.github.jonathansavas.parabond.paraworker.java.ParaWorkerClient
 import io.grpc.ManagedChannelBuilder
 import org.apache.logging.log4j.LogManager
 import parabond.cluster._
-import parascale.parabond.util.Result
+import parabond.util.Result
 
 /**
   * Dispatcher class to partition the analysis work. Checks the
@@ -17,7 +17,7 @@ import parascale.parabond.util.Result
 class ParaDispatcher {
   val logger = LogManager.getLogger(classOf[ParaDispatcher])
 
-  val RANGE = 5000
+  val RANGE = 100
 
   val DEFAULT_WORKER_SERVER = "localhost:9999"
 
@@ -31,10 +31,6 @@ class ParaDispatcher {
     logger.info("creating and sending partitions for n = {}", size)
 
     val portfIds = checkReset(size, 0)
-
-    portfIds.foreach { id =>
-      logger.debug("DEBUG PORTFID {} PARADISPATCHER", id)
-    }
 
     val parT0 = System.nanoTime
 
@@ -54,8 +50,6 @@ class ParaDispatcher {
     // Make each unary blocking RPC in its own thread, using the same channel
     val results = ranges.map { bounds =>
       val (n, begin) = bounds
-
-      logger.info("sending partition for n = {} and begin = {}", n, begin)
 
       val client = new ParaWorkerClient(channelToWorker)
 

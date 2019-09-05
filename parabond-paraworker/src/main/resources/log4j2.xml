@@ -11,7 +11,7 @@
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="MyFile" level="debug"/>
+            <AppenderRef ref="MyFile" level="info"/>
         </Root>
         <Logger name="org.mongodb.driver.*" level="warn"/>
         <Logger name="org.mongodb.driver.protocol.query" level="warn" />

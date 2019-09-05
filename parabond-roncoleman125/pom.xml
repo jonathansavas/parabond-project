@@ -9,26 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>parabond-paraworker</artifactId>
+    <artifactId>parabond-roncoleman125</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.jonathansavas</groupId>
-            <artifactId>parabond-protobuf</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jonathansavas</groupId>
-            <artifactId>parabond-roncoleman125</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -39,6 +27,13 @@
             <artifactId>log4j-core</artifactId>
             <version>2.12.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -84,6 +79,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

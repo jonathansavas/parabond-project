@@ -4,12 +4,12 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <File name="MyFile" fileName="logs/paradispatcher.log" immediateFlush="false" append="true">
+        <File name="MyFile" fileName="logs/parabond.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="Console" level="info"/>
             <AppenderRef ref="MyFile" level="info"/>
         </Root>

@@ -33,6 +33,7 @@ import parabond.util.Constant.PORTF_NUM
 import parascale.util.getPropertyOrElse
 
 import scala.util.Random
+import scala.language.postfixOps
 
 /** Test driver */
 object Ser02 {

@@ -29,11 +29,11 @@ package parabond.test
 import parabond.casa.MongoHelper
 import parabond.util.{Helper, Result, Job}
 
-import scala.util.Random
 import parabond.value.SimpleBondValuator
 import parascale.util.getPropertyOrElse
 
 import scala.util.Random
+import scala.language.postfixOps
 
 /** Test driver */
 object Ser03 {

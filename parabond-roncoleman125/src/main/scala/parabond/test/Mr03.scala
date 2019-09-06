@@ -31,6 +31,7 @@ import parabond.mr.MapReduce
 import parabond.util.Result
 import parabond.mr._
 import parascale.util.{getPropertyOrElse, parseBoolean}
+import scala.language.postfixOps
 
 /** Test driver */
 object Mr03 {

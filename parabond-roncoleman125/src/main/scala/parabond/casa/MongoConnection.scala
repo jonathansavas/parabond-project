@@ -36,7 +36,7 @@ import com.mongodb.MongoClient
 object MongoConnection {
   // Suppress mongo diagnostics
   // See http://stackoverflow.com/questions/29454916/how-to-prevent-logging-on-console-when-connected-to-mongodb-from-java
-  // This also needs to be set in the log4j.properties file
+  // This also needs to be set in the log properties/xml file
   Logger.getLogger( "org.mongodb.driver" ).setLevel(Level.SEVERE)
 
   def apply(host: String) = new MongoConnection(new MongoClient(host))

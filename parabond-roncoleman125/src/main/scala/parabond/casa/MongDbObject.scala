@@ -27,6 +27,7 @@
 package parabond.casa
 
 import org.bson.Document
+import scala.language.implicitConversions
 
 /**
  * @author Ron.Coleman

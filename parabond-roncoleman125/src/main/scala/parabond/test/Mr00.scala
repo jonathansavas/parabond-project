@@ -27,6 +27,7 @@
 package parabond.test
 
 import parabond.mr._
+import scala.language.postfixOps
 
 /** Test driver */
 object Mr00 {

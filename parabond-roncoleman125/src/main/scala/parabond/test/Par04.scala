@@ -31,6 +31,7 @@ import parabond.util.{Helper, Result, Job}
 import parabond.value.SimpleBondValuator
 
 import scala.util.Random
+import scala.language.postfixOps
 import parabond.util.Constant.{DIAGS_DIR, PORTF_NUM}
 import parascale.util._
 

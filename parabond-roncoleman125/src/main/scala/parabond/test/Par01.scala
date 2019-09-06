@@ -35,6 +35,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.Random
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.language.postfixOps
 
 /** Test driver */
 object Par01 {

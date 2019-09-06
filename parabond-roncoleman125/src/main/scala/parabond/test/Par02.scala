@@ -31,6 +31,7 @@ import parabond.casa.MongoHelper.PortfIdToBondsMap
 import parabond.util.{Helper, Result, Job}
 import parabond.value.SimpleBondValuator
 import scala.collection.mutable.ListBuffer
+import scala.language.postfixOps
 import scala.util.Random
 import parabond.entry.SimpleBond
 import parascale.util.getPropertyOrElse

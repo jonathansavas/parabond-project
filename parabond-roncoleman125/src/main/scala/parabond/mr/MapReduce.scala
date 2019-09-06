@@ -31,6 +31,7 @@ import parabond.util.Result
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 /**
   * This object contains convenience methods for running mapreduce operations

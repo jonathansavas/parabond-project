@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-        </Console>
-        <File name="MyFile" fileName="logs/parabond.log" immediateFlush="false" append="true">
-            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <File name="FILE" fileName="logs/parabond.log" append="true">
+            <Log4j1XmlLayout />
         </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%level - %m%n"/>
+        </Console>
     </Appenders>
     <Loggers>
-        <Root level="info">
-            <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="MyFile" level="info"/>
+        <Logger name="com.mongodb.driver" level="SEVERE">
+            <AppenderRef ref="FILE"/>
+        </Logger>
+        <Root level="debug">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FILE"/>
         </Root>
-        <Logger name="org.mongodb.driver.*" level="warn"/>
-        <Logger name="org.mongodb.driver.protocol.query" level="warn" />
-        <Logger name="org.mongodb.driver.protocol.update" level="warn" />
     </Loggers>
 </Configuration>

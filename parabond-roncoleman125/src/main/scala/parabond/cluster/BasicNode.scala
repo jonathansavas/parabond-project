@@ -26,10 +26,11 @@
  */
 package parabond.cluster
 
+
 import org.apache.logging.log4j.LogManager
 import parabond.casa.{MongoDbObject, MongoHelper}
 import parabond.util.{Helper, Job, Result}
-import parabond.util.Constant.{NUM_PORTFOLIOS, PORTF_NUM}
+import parabond.util.Constant.PORTF_NUM
 import parabond.value.SimpleBondValuator
 import parascale.util.getPropertyOrElse
 

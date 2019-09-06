@@ -35,6 +35,7 @@ import parabond.entry.SimpleBond
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import parascale.util._
+import scala.language.postfixOps
 
 /**
  * This object implements monngo-specific helper functions.

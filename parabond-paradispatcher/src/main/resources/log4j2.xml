@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <File name="MyFile" fileName="logs/paradispatcher.log" immediateFlush="false" append="true">
+        <File name="MyFile" fileName="./logs/paradispatcher.log" immediateFlush="true" append="true">
             <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="MyFile" level="info"/>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="MyFile"/>
         </Root>
         <Logger name="org.mongodb.driver.*" level="warn"/>
-        <Logger name="org.mongodb.driver.protocol.query" level="warn" />
-        <Logger name="org.mongodb.driver.protocol.update" level="warn" />
+        <Logger name="org.mongodb.driver.protocol.query" level="warn"/>
+        <Logger name="org.mongodb.driver.protocol.update" level="warn"/>
     </Loggers>
 </Configuration>

@@ -32,6 +32,7 @@ import parabond.mr._
 import parascale.util.{getPropertyOrElse, parseBoolean}
 
 import scala.util.Random
+import scala.language.postfixOps
 
 /** Test driver */
 object Mr02 {

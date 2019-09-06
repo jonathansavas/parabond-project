@@ -32,7 +32,7 @@ import parabond.mr._
 import parabond.util.Constant._
 
 import scala.util.Random
-import parabond.value.SimpleBondValuator
+import scala.language.postfixOps
 import parascale.util.{getPropertyOrElse, parseBoolean}
 
 /** Test driver */

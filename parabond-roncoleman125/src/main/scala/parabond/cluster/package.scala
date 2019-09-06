@@ -30,6 +30,7 @@ import org.apache.logging.log4j.Logger
 import parabond.casa.{MongoDbObject, MongoHelper}
 import parascale.util.getPropertyOrElse
 import parabond.util.Constant.{NUM_PORTFOLIOS, PORTF_NUM}
+import scala.language.postfixOps
 
 package object cluster {
   /**

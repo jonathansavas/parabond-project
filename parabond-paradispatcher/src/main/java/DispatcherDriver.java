@@ -9,7 +9,7 @@ public class DispatcherDriver {
   public static void main(String[] args) throws InterruptedException {
     ParaDispatcherClient client = new ParaDispatcherClient();
 
-    GrpcJobInfo jobInfo = client.processJob(150);
+    GrpcJobInfo jobInfo = client.processJob(250);
 
     System.out.println(String.format("Job Info: T1 = %f, TN = %f, Misses = %d", jobInfo.getT1() / 1000000000.0, jobInfo.getTN() / 1000000000.0, jobInfo.getMisses()));
     client.shutdown();

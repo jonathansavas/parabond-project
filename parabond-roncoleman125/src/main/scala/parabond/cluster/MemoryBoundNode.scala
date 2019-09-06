@@ -26,7 +26,7 @@
  */
 package parabond.cluster
 
-import org.apache.logging.log4j.{LogManager, Logger}
+import org.apache.logging.log4j.LogManager
 import parabond.util.Constant.PORTF_NUM
 import parabond.casa.{MongoDbObject, MongoHelper}
 import parabond.casa.MongoHelper.{PortfIdToBondsMap, bondCollection, mongo}
@@ -35,6 +35,7 @@ import parabond.util.{Helper, Job, Result}
 import parabond.util.Constant.NUM_PORTFOLIOS
 import parabond.value.SimpleBondValuator
 import parascale.util.getPropertyOrElse
+import scala.language.postfixOps
 
 import scala.collection.GenSeq
 import scala.util.Random

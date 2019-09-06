@@ -6,6 +6,7 @@ import parabond.util.{Helper, Result}
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.language.postfixOps
 import parabond.value.SimpleBondValuator
 
 package object mr {

@@ -30,7 +30,7 @@ import parabond.casa.{MongoConnection, MongoDbObject, MongoHelper}
 import parabond.util.Constant.DIAGS_DIR
 import parabond.util.Helper
 
-import scala.util.Random
+import scala.language.postfixOps
 import parabond.value.SimpleBondValuator
 import parascale.util.getPropertyOrElse
 

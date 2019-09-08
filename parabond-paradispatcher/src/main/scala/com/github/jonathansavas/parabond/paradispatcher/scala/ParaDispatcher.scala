@@ -1,6 +1,7 @@
 package com.github.jonathansavas.parabond.paradispatcher.scala
 
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.{GrpcJobInfo, GrpcJobSize}
+import com.github.jonathansavas.parabond.paradispatcher.java.ParaDispatcherUtil
 import com.github.jonathansavas.parabond.paraworker.java.ParaWorkerClient
 import io.grpc.ManagedChannelBuilder
 import org.apache.logging.log4j.LogManager
@@ -19,9 +20,11 @@ class ParaDispatcher {
 
   val RANGE = 100
 
-  val DEFAULT_WORKER_SERVER = "localhost:9999"
+  val DEFAULT_WORKER_HOST = "localhost"
+  val DEFAULT_WORKER_PORT = 9999
 
-  val (wHost, wPort) = getWorkerHostOrElse(DEFAULT_WORKER_SERVER)
+  val wHost = ParaDispatcherUtil.getStringPropOrElse("worker.host", DEFAULT_WORKER_HOST)
+  val wPort = ParaDispatcherUtil.getIntPropOrElse("worker.port", DEFAULT_WORKER_PORT)
 
   val channelToWorker = ManagedChannelBuilder.forAddress(wHost, wPort).usePlaintext().build()
 
@@ -74,15 +77,5 @@ class ParaDispatcher {
     val misses = check(portfIds)
 
     GrpcJobInfo.newBuilder().setT1(serialT1).setTN(parTN).setMisses(misses.length).build()
-  }
-
-  def getWorkerHostOrElse(defaultHost: String): (String, Int) = {
-    val property = System.getProperty("workerhost")
-
-    val workerHost = if (property != null) property else defaultHost
-
-    val addressParts = workerHost.split(":")
-
-    (addressParts(0), addressParts(1).toInt)
   }
 }

@@ -21,7 +21,8 @@ public class ParaWorkerClient {
   private final ParaWorkerStub asyncStub;
 
   public ParaWorkerClient() {
-    this("localhost", DEFAULT_PORT);
+    this(ParaWorkerUtil.getStringPropOrElse("paraworker.host", "localhost"),
+        ParaWorkerUtil.getIntPropOrElse("paraworker.port", DEFAULT_PORT));
   }
 
   public ParaWorkerClient(String host) {

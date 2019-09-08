@@ -15,13 +15,15 @@ import java.util.concurrent.TimeUnit;
 public class ParaDispatcherClient {
   private static final Logger logger = LogManager.getLogger(ParaDispatcherClient.class);
   private static final int DEFAULT_PORT = 9898;
+  private static final String DEFAULT_HOST = "localhost";
 
   private final ManagedChannel channel;
   private final ParaDispatcherBlockingStub blockingStub;
   private final ParaDispatcherStub asyncStub;
 
   public ParaDispatcherClient() {
-    this("localhost", DEFAULT_PORT);
+    this(ParaDispatcherUtil.getStringPropOrElse("paradispatcher.host", DEFAULT_HOST),
+        ParaDispatcherUtil.getIntPropOrElse("paradispatcher.port", DEFAULT_PORT));
   }
 
   public ParaDispatcherClient(String host) {

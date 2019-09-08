@@ -293,5 +293,5 @@ object MongoHelper {
     /**
    * Gets the mongo host.
    * */
-  def getHost: String = getPropertyOrElse("host", "127.0.0.1")
+  def getHost: String = getPropertyOrElse("mongo.host", "127.0.0.1")
 }

@@ -11,7 +11,9 @@ import io.grpc.stub.StreamObserver;
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcPartition;
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.GrpcResult;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,16 +21,16 @@ import org.apache.logging.log4j.Logger;
 public class ParaWorkerServer {
   private static final Logger logger = LogManager.getLogger(ParaWorkerServer.class);
   private static final int DEFAULT_PORT = 9999;
+  private final String PROPERTIES_FILE = "paraworker.properties";
 
   private final int port;
   private final Server server;
 
-  public ParaWorkerServer() {
-    this(DEFAULT_PORT);
-  }
+  private Properties props;
 
-  public ParaWorkerServer(int port) {
-    this.port = port;
+  public ParaWorkerServer() {
+    loadConfig(PROPERTIES_FILE);
+    this.port = ParaWorkerUtil.getIntPropOrElse("paraworker.port", DEFAULT_PORT);
     this.server = ServerBuilder.forPort(port).addService(new ParaWorkerService()).build();
   }
 
@@ -57,18 +59,29 @@ public class ParaWorkerServer {
     }
   }
 
-  public static void main(String[] args) throws InterruptedException {
-    int port = ParaWorkerUtil.getPortOrElse(DEFAULT_PORT);
-
-    ParaWorkerServer server = new ParaWorkerServer(port);
-
+  protected void loadConfig(String propFile) {
     try {
-      server.start();
+      this.props = System.getProperties();
+
+      props.load(new FileInputStream(propFile));
+
+    } catch (IOException ex) {
+      logger.error("Failed to load {}: {}", propFile, ex);
+    }
+  }
+
+  protected void go() throws InterruptedException {
+    try {
+      start();
     } catch (IOException e) {
       logger.warn("ParaWorkerServer startup failed: {}", e.getMessage());
     }
 
-    server.blockUntilShutdown();
+    blockUntilShutdown();
+  }
+
+  public static void main(String[] args) throws InterruptedException {
+    new ParaWorkerServer().go();
   }
 
   private static class ParaWorkerService extends ParaWorkerGrpc.ParaWorkerImplBase {

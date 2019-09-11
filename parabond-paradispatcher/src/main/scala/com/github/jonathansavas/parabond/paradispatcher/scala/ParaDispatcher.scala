@@ -20,13 +20,28 @@ class ParaDispatcher {
 
   val RANGE = 100
 
+  // Env variable specified in client k8's deployment yaml
+  /*
+    spec:
+      containers:
+      - name: paradispatcher
+        image: jonathansavas/paradispatcher
+        env:
+        - name: PARAWORKER_SVC_HOST
+          value: paraworker-server
+        - name: PARAWORKER_SVC_PORT
+          value: "9999"
+   */
+  val HOST_ENV = "PARAWORKER_SVC_HOST"
+  val PORT_ENV = "PARAWORKER_SVC_PORT"
+
   val DEFAULT_WORKER_HOST = "localhost"
-  val DEFAULT_WORKER_PORT = 9999
+  val DEFAULT_WORKER_PORT = "9999"
 
-  val wHost = ParaDispatcherUtil.getStringPropOrElse("worker.host", DEFAULT_WORKER_HOST)
-  val wPort = ParaDispatcherUtil.getIntPropOrElse("worker.port", DEFAULT_WORKER_PORT)
+  val wHost = ParaDispatcherUtil.getStringEnvOrElse(HOST_ENV, DEFAULT_WORKER_HOST)
+  val wPort = ParaDispatcherUtil.getStringEnvOrElse(PORT_ENV, DEFAULT_WORKER_PORT)
 
-  val channelToWorker = ManagedChannelBuilder.forAddress(wHost, wPort).usePlaintext().build()
+  val channelToWorker = ManagedChannelBuilder.forTarget(s"${wHost}:${wPort}").usePlaintext().build
 
   def dispatch(jobSize: GrpcJobSize): GrpcJobInfo = {
     val size = jobSize.getN

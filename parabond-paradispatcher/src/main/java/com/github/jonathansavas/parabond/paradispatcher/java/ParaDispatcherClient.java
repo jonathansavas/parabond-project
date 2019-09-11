@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ParaDispatcherClient {
   private static final Logger logger = LogManager.getLogger(ParaDispatcherClient.class);
-  private static final int DEFAULT_PORT = 9898;
+  private static final String DEFAULT_PORT = "9898";
   private static final String DEFAULT_HOST = "localhost";
 
   private final ManagedChannel channel;
@@ -23,7 +23,7 @@ public class ParaDispatcherClient {
 
   public ParaDispatcherClient() {
     this(ParaDispatcherUtil.getStringPropOrElse("paradispatcher.host", DEFAULT_HOST),
-        ParaDispatcherUtil.getIntPropOrElse("paradispatcher.port", DEFAULT_PORT));
+        ParaDispatcherUtil.getStringPropOrElse("paradispatcher.port", DEFAULT_PORT));
   }
 
   public ParaDispatcherClient(String host) {
@@ -37,6 +37,10 @@ public class ParaDispatcherClient {
    */
   public ParaDispatcherClient(String host, int port) {
     this(ManagedChannelBuilder.forAddress(host, port).usePlaintext().build());
+  }
+
+  public ParaDispatcherClient(String host, String port) {
+    this(ManagedChannelBuilder.forTarget(host + ":" + port).usePlaintext().build());
   }
 
   /**

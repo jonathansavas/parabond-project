@@ -16,4 +16,9 @@ public class ParaDispatcherUtil {
     String port = System.getProperty("port");
     return port == null ? defaultPort : Integer.parseInt(port);
   }
+
+  public static String getStringEnvOrElse(String env, String defaultEnv) {
+    String var = System.getenv(env);
+    return var == null || var.isEmpty() ? defaultEnv : var;
+  }
 }

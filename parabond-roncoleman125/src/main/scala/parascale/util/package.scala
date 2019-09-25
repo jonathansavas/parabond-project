@@ -79,6 +79,21 @@ package object util {
   def getPropertyOrElse(key: String, default: Boolean): Boolean = getPropertyOrElse(key,parseBoolean, default)
 
   /**
+   * Gets a system environment variable or a default string value
+   * @param env
+   * @param default
+   * @return
+   */
+  def getStringEnvOrElse(env: String, default: String): String = {
+    val value = System.getenv(env)
+
+    if (value == null || value.isEmpty)
+      default
+    else
+      value
+  }
+
+  /**
     * Convenience method for sleeping.
     * @param millis Time in milliseconds to sleep
     */

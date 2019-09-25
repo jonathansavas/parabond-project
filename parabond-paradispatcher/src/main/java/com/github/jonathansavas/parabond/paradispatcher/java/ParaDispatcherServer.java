@@ -1,6 +1,3 @@
-// https://grpc.io/docs/tutorials/basic/java/
-// https://developers.google.com/protocol-buffers/docs/proto3#simple
-
 package com.github.jonathansavas.parabond.paradispatcher.java;
 
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherGrpc;
@@ -29,10 +26,18 @@ public class ParaDispatcherServer {
   private Properties props;
 
   public ParaDispatcherServer() {
+    this.port = DEFAULT_PORT;
+    this.server = ServerBuilder.forPort(port).addService(new ParaDispatcherService()).build();
+  }
+
+  /*
+  public ParaDispatcherServer() {
     loadConfig(PROPERTIES_FILE);
     this.port = ParaDispatcherUtil.getIntPropOrElse("paradispatcher.port", DEFAULT_PORT);
     this.server = ServerBuilder.forPort(port).addService(new ParaDispatcherService()).build();
   }
+
+   */
 
   public void start() throws IOException {
     server.start();

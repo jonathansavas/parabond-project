@@ -11,6 +11,7 @@
       <module>parabond-roncoleman125</module>
       <module>parabond-paraworker</module>
       <module>parabond-paradispatcher</module>
+      <module>parabond-http-server</module>
   </modules>
 
   <properties>

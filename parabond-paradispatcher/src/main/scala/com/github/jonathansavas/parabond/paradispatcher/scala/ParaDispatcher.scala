@@ -18,7 +18,7 @@ import parabond.util.Result
 class ParaDispatcher {
   val logger = LogManager.getLogger(classOf[ParaDispatcher])
 
-  val RANGE = 100
+  val RANGE = 5000
 
   // Env variable specified in client k8's deployment yaml
   /*

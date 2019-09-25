@@ -1,6 +1,3 @@
-// https://grpc.io/docs/tutorials/basic/java/
-// https://developers.google.com/protocol-buffers/docs/proto3#simple
-
 package com.github.jonathansavas.parabond.paraworker.java;
 
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerGrpc;
@@ -29,10 +26,17 @@ public class ParaWorkerServer {
   private Properties props;
 
   public ParaWorkerServer() {
+    this.port = DEFAULT_PORT;
+    this.server = ServerBuilder.forPort(port).addService(new ParaWorkerService()).build();
+  }
+
+  /*
+  public ParaWorkerServer() {
     loadConfig(PROPERTIES_FILE);
     this.port = ParaWorkerUtil.getIntPropOrElse("paraworker.port", DEFAULT_PORT);
     this.server = ServerBuilder.forPort(port).addService(new ParaWorkerService()).build();
   }
+   */
 
   public void start() throws IOException {
     server.start();

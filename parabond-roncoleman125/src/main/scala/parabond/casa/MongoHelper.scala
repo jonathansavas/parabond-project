@@ -42,6 +42,8 @@ import scala.language.postfixOps
  * @author Ron Coleman
  */
 object MongoHelper {
+  val MONGO_ENV = "MONGO_SVC_HOST"
+
   /** Sets the mongo host */
   val host: String = getHost
 
@@ -293,5 +295,5 @@ object MongoHelper {
     /**
    * Gets the mongo host.
    * */
-  def getHost: String = getPropertyOrElse("mongo.host", "127.0.0.1")
+  def getHost: String = getStringEnvOrElse(MONGO_ENV, "127.0.0.1")
 }

@@ -7,8 +7,6 @@ import parabond.cluster.{FineGrainedNode, Partition}
 /**
   * Worker class to analyze a partition of bond portfolios. Queries a
   * Mongo DB for portfolio and bond information.
-  * VM Options:
-  *   -Dhost=[mongo_ip_address], defaults to localhost
   * @author Jonathan Savas
   */
 class ParaWorker {

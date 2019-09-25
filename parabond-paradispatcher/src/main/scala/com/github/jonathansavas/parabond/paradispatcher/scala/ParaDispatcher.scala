@@ -11,8 +11,6 @@ import parabond.util.Result
 /**
   * Dispatcher class to partition the analysis work. Checks the
   * Mongo DB for any missed portfolio queries.
-  * VM Options:
-  *   -Dhost=[mongo_ip_address], defaults to localhost
   * @author Jonathan Savas
   */
 class ParaDispatcher {

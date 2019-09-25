@@ -12,4 +12,20 @@ public class Response {
     this.tN = info.getTN() / 1000000000.0 + "s";
     this.numMisses = info.getMisses();
   }
+
+  public int getNumPortfolios() {
+    return numPortfolios;
+  }
+
+  public String getT1() {
+    return t1 != null ? t1 : "null";
+  }
+
+  public String gettN() {
+    return tN != null ? tN : "null;";
+  }
+
+  public int getNumMisses() {
+    return numMisses;
+  }
 }

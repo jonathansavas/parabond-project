@@ -19,6 +19,8 @@ class ParaDispatcher {
   val RANGE = 5000
 
   // Env variable specified in client k8's deployment yaml
+  // k8's will resolve the service name via DNS to the service proxy, which in turn forwards the
+  // request to any of the worker (pod) instances
   /*
     spec:
       containers:
@@ -41,6 +43,11 @@ class ParaDispatcher {
 
   val channelToWorker = ManagedChannelBuilder.forTarget(s"${wHost}:${wPort}").usePlaintext().build
 
+  /**
+    * Partitions the work, sends to workers, and analyzes results.
+    * @param jobSize Number of portfolios to anaylze
+    * @return Timing and misses info about the job
+    */
   def dispatch(jobSize: GrpcJobSize): GrpcJobInfo = {
     val size = jobSize.getN
 

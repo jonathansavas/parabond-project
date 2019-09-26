@@ -15,6 +15,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Server to handle requests to the worker from the dispatcher.
+ */
 public class ParaWorkerServer {
   private static final Logger logger = LogManager.getLogger(ParaWorkerServer.class);
   private static final int DEFAULT_PORT = 9999;
@@ -25,6 +28,9 @@ public class ParaWorkerServer {
 
   private Properties props;
 
+  /**
+   * Construct server on default port.
+   */
   public ParaWorkerServer() {
     this.port = DEFAULT_PORT;
     this.server = ServerBuilder.forPort(port).addService(new ParaWorkerService()).build();
@@ -38,6 +44,10 @@ public class ParaWorkerServer {
   }
    */
 
+  /**
+   * Starts the server.
+   * @throws IOException
+   */
   public void start() throws IOException {
     server.start();
     logger.info("Server started, listening on port " + port);
@@ -51,18 +61,30 @@ public class ParaWorkerServer {
     });
   }
 
+  /**
+   * Stops the server
+   */
   public void stop() {
     if (server != null) {
       server.shutdown();
     }
   }
 
+  /**
+   * Keeps the server running after startup. The server handles each request in a
+   * separate thread.
+   * @throws InterruptedException
+   */
   private void blockUntilShutdown() throws InterruptedException {
     if (server != null) {
       server.awaitTermination();
     }
   }
 
+  /**
+   * Load properties file to configure the server.
+   * @param propFile
+   */
   protected void loadConfig(String propFile) {
     try {
       this.props = System.getProperties();
@@ -74,6 +96,10 @@ public class ParaWorkerServer {
     }
   }
 
+  /**
+   * Convenience method to start server and keep alive.
+   * @throws InterruptedException
+   */
   protected void go() throws InterruptedException {
     try {
       start();
@@ -84,12 +110,25 @@ public class ParaWorkerServer {
     blockUntilShutdown();
   }
 
+  /**
+   * Main method to run the server.
+   * @param args
+   * @throws InterruptedException
+   */
   public static void main(String[] args) throws InterruptedException {
     new ParaWorkerServer().go();
   }
 
+  /**
+   * Implements gRPC methods available on this server.
+   */
   private static class ParaWorkerService extends ParaWorkerGrpc.ParaWorkerImplBase {
 
+    /**
+     * Sends partition to paraworker
+     * @param partition Partition of portfolios to analyze
+     * @param responseObserver Listens for response to send to the client
+     */
     @Override
     public void work(GrpcPartition partition, StreamObserver<GrpcResult> responseObserver) {
       responseObserver.onNext(new ParaWorker().work(partition));

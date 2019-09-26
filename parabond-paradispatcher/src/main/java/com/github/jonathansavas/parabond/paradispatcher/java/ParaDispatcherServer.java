@@ -15,6 +15,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Server to handle requests to the dispatcher from the controller.
+ */
 public class ParaDispatcherServer {
   private static final Logger logger = LogManager.getLogger(ParaDispatcherServer.class.getName());
   private static final int DEFAULT_PORT = 9898;
@@ -25,6 +28,9 @@ public class ParaDispatcherServer {
 
   private Properties props;
 
+  /**
+   * Construct server on default port.
+   */
   public ParaDispatcherServer() {
     this.port = DEFAULT_PORT;
     this.server = ServerBuilder.forPort(port).addService(new ParaDispatcherService()).build();
@@ -39,6 +45,10 @@ public class ParaDispatcherServer {
 
    */
 
+  /**
+   * Starts the server.
+   * @throws IOException
+   */
   public void start() throws IOException {
     server.start();
     logger.info("Server started, listening on port " + port);
@@ -52,18 +62,30 @@ public class ParaDispatcherServer {
     });
   }
 
+  /**
+   * Stops the server
+   */
   public void stop() {
     if (server != null) {
       server.shutdown();
     }
   }
 
+  /**
+   * Keeps the server running after startup. The server handles each request in a
+   * separate thread.
+   * @throws InterruptedException
+   */
   private void blockUntilShutdown() throws InterruptedException {
     if (server != null) {
       server.awaitTermination();
     }
   }
 
+  /**
+   * Load properties file to configure the server.
+   * @param propFile
+   */
   protected void loadConfig(String propFile) {
     try {
       this.props = System.getProperties();
@@ -75,6 +97,10 @@ public class ParaDispatcherServer {
     }
   }
 
+  /**
+   * Convenience method to start server and keep alive.
+   * @throws InterruptedException
+   */
   protected void go() throws InterruptedException {
     try {
       start();
@@ -85,12 +111,25 @@ public class ParaDispatcherServer {
     blockUntilShutdown();
   }
 
+  /**
+   * Main method to run the server.
+   * @param args
+   * @throws InterruptedException
+   */
   public static void main(String[] args) throws InterruptedException {
     new ParaDispatcherServer().go();
   }
 
+  /**
+   * Implements gRPC methods available on this server.
+   */
   private static class ParaDispatcherService extends ParaDispatcherGrpc.ParaDispatcherImplBase {
 
+    /**
+     * Sends job to paradispatcher.
+     * @param jobSize Number of portfolios to analyze
+     * @param responseObserver Listens for response to send to the client
+     */
     @Override
     public void dispatch(GrpcJobSize jobSize, StreamObserver<GrpcJobInfo> responseObserver) {
       responseObserver.onNext(new ParaDispatcher().dispatch(jobSize));

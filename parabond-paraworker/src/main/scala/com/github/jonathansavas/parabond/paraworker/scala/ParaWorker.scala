@@ -16,6 +16,11 @@ class ParaWorker {
 
   val node = new FineGrainedNode
 
+  /**
+    * Analyzes a partition of portfolios
+    * @param grpcPartition Partition information for this worker.
+    * @return GrpcResult containing timing information about the parition analysis
+    */
   def work(grpcPartition: GrpcPartition): GrpcResult = {
     val partition = Partition(grpcPartition.getN, grpcPartition.getBegin)
 

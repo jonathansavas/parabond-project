@@ -7,6 +7,9 @@ import com.github.jonathansavas.parabond.paradispatcher.java.ParaDispatcherUtil;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcJobInfo;
 import com.github.jonathansavas.parabond.paradispatcher.java.ParaDispatcherClient;
 
+/**
+ * REST controller for the parabond project.
+ */
 @RestController
 @EnableAutoConfiguration
 public class ParabondController {
@@ -22,6 +25,12 @@ public class ParabondController {
 
   ManagedChannel channelToDispatcher = ManagedChannelBuilder.forTarget(dHost + ":" + dPort).usePlaintext().build();
 
+  /**
+   * Endpoint to price a job and return timing information.
+   * @param size Number of portfolios to analyze
+   * @return Response with information about the request
+   * @throws InterruptedException
+   */
   @RequestMapping("/price")
   public Response timePricingRequest(@RequestParam(value="size", defaultValue="25000") int size) throws InterruptedException {
     if (size < 1) size = 1;
@@ -32,12 +41,21 @@ public class ParabondController {
     return new Response(info, size);
   }
 
+  /**
+   * Test endpoint
+   * @param msg
+   * @return
+   */
   @RequestMapping("/test")
   public String testResponse(@RequestParam(value="param", defaultValue="test_response") String msg) {
     return "test endpoint, response: " + msg;
   }
 
 
+  /**
+   * Main method to run the application
+   * @param args
+   */
   public static void main(String[] args) {
     SpringApplication.run(ParabondController.class, args);
   }

@@ -48,10 +48,20 @@ public class ParaWorkerClient {
     this.asyncStub = ParaWorkerGrpc.newStub(channel);
   }
 
+  /**
+   * Shutdown the client connection
+   * @throws InterruptedException
+   */
   public void shutdown() throws InterruptedException {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
+  /**
+   * Remote procedure call to worker server. This is a blocking unary call.
+   * @param n Number of portfolios in the partition
+   * @param begin Begin index of the portfolio list for this partition
+   * @return
+   */
   public GrpcResult priceBonds(int n, int begin) {
     GrpcPartition partition = GrpcPartition.newBuilder().setN(n).setBegin(begin).build();
     GrpcResult result;

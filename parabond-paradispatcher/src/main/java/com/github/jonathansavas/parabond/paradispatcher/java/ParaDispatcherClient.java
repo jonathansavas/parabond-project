@@ -53,10 +53,19 @@ public class ParaDispatcherClient {
     this.asyncStub = ParaDispatcherGrpc.newStub(channel);
   }
 
+  /**
+   * Shutdown the client connection
+   * @throws InterruptedException
+   */
   public void shutdown() throws InterruptedException {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
+  /**
+   * Remote procedure call to dispatcher server. This is a blocking unary call.
+   * @param size Number of portfolios to price
+   * @return
+   */
   public GrpcJobInfo processJob(int size) {
     GrpcJobSize request = GrpcJobSize.newBuilder().setN(size).build();
     GrpcJobInfo info;

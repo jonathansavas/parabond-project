@@ -25,6 +25,7 @@
       <io.grpc.version>1.23.0</io.grpc.version>
       <log4j.version>2.12.1</log4j.version>
       <mongo-java-driver.version>3.0.0</mongo-java-driver.version>
+      <jib-maven-plugin.version>1.6.1</jib-maven-plugin.version>
   </properties>
 
 </project>

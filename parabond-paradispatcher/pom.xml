@@ -13,6 +13,12 @@
 
     <properties>
         <server.port>9898</server.port>
+        <scala.version>2.12.9</scala.version>
+        <java-version>1.8</java-version>
+        <maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
+        <scala-maven-plugin-version>4.1.1</scala-maven-plugin-version>
+        <log4j.version>2.12.1</log4j.version>
+        <jib-maven-plugin.version>1.6.1</jib-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -41,12 +47,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.12.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.12.1</version>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -108,7 +114,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>

@@ -14,6 +14,8 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import parabond.casa.MongoHelper;
+import parabond.db.DbLoader;
 
 /**
  * Server to handle requests to the dispatcher from the controller.
@@ -102,6 +104,12 @@ public class ParaDispatcherServer {
    * @throws InterruptedException
    */
   protected void go() throws InterruptedException {
+    if (! MongoHelper.isLoaded()) {
+      logger.info("database not loaded, loading bonds and portfolios collections");
+      DbLoader.loadBonds();
+      DbLoader.loadPortfolios();
+    }
+
     try {
       start();
     } catch (IOException e) {

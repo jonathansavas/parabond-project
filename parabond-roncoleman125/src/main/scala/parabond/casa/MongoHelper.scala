@@ -296,4 +296,12 @@ object MongoHelper {
    * Gets the mongo host.
    * */
   def getHost: String = getStringEnvOrElse(MONGO_ENV, "127.0.0.1")
+
+  /**
+    * Checks if the database is loaded.
+    * @return
+    */
+  def isLoaded: Boolean = {
+    portfolioCollection.count == Constant.NUM_PORTFOLIOS && bondCollection.count == Constant.NUM_BONDS
+  }
 }

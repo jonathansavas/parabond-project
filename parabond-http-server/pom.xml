@@ -75,6 +75,7 @@
                 <configuration>
                     <to>
                         <image>docker.io/jonathansavas/${project.artifactId}:${project.version}</image>
+                        <credHelper>wincred</credHelper>
                     </to>
                     <container>
                         <ports>

@@ -75,14 +75,14 @@
                             <port>${server.port}</port>
                         </ports>
                     </container>
+                    <containerizingMode>packaged</containerizingMode>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>build</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
-                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>

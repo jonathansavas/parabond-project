@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: paradispatcher-server
-        image: jonathansavas/parabond-paradispatcher:1.0.0-SNAPSHOT
+        image: docker.io/jonathansavas/parabond-paradispatcher:1.0.0-SNAPSHOT
         env:
           - name: MONGO_SVC_HOST
             value: mongo-0.mongo

@@ -1,3 +1,5 @@
+package com.github.jonathansavas.parabond.controller.java;
+
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto;
 
 /**

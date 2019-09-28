@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>parabond-http-server</artifactId>
+    <artifactId>parabond-controller</artifactId>
 
     <properties>
         <server.port>8080</server.port>

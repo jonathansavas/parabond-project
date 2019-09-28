@@ -1,3 +1,5 @@
+package com.github.jonathansavas.parabond.controller.java;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.boot.*;

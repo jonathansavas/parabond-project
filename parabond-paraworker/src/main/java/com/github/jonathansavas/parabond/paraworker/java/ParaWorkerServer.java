@@ -131,8 +131,10 @@ public class ParaWorkerServer {
      */
     @Override
     public void work(GrpcPartition partition, StreamObserver<GrpcResult> responseObserver) {
+      logger.info("Received partition: {}", partition);
       responseObserver.onNext(new ParaWorker().work(partition));
       responseObserver.onCompleted();
+      logger.info("Sent results for partition: {}", partition);
     }
   }
 }

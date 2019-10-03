@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: paraworker-server
-        image: docker.io/jonathansavas/parabond-paraworker:1.0.0-SNAPSHOT
+        image: jonathansavas/parabond-paraworker:1.0.0-SNAPSHOT
         env:
           - name: MONGO_SVC_HOST
             value: mongo-0.mongo
@@ -32,7 +32,6 @@ metadata:
   name: paraworker-server
 spec:
   type: ClusterIP
-  clusterIP: None
   ports:
   - name: grpc
     port: 9999

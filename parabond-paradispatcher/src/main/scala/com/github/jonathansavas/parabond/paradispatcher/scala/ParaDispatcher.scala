@@ -78,6 +78,8 @@ class ParaDispatcher {
 
       val grpcResult = client.priceBonds(n, begin)
 
+      logger.info("Received result: {}", grpcResult)
+
       client.shutdown()
 
       Result(grpcResult.getT0, grpcResult.getT1)

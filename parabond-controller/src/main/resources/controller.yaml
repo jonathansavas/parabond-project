@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: controller
-          image: docker.io/jonathansavas/parabond-controller:1.0.0-SNAPSHOT
+          image: jonathansavas/parabond-controller:1.0.0-SNAPSHOT
           env:
             - name: PARADISPATCHER_SVC_HOST
               value: paradispatcher-server

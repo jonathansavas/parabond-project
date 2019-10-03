@@ -112,6 +112,11 @@
                         </ports>
                     </container>
                     <containerizingMode>packaged</containerizingMode>
+                    <extraDirectories>
+                        <paths>
+                            <path>src/main/resources</path>
+                        </paths>
+                    </extraDirectories>
                 </configuration>
                 <executions>
                     <execution>

@@ -17,6 +17,7 @@ spec:
       containers:
         - name: controller
           image: jonathansavas/parabond-controller:1.0.0-SNAPSHOT
+          imagePullPolicy: Always
           env:
             - name: PARADISPATCHER_SVC_HOST
               value: paradispatcher-server

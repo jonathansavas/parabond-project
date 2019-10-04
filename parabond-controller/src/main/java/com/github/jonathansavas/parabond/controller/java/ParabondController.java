@@ -39,7 +39,6 @@ public class ParabondController {
     if (size > 100000) size = 100000;
     ParaDispatcherClient client = new ParaDispatcherClient(channelToDispatcher);
     GrpcJobInfo info = client.processJob(size);
-    client.shutdown();
     return new Response(info, size);
   }
 

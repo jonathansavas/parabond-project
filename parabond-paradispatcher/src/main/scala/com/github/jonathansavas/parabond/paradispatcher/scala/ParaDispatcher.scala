@@ -16,8 +16,8 @@ import parabond.util.Result
 class ParaDispatcher {
   val logger = LogManager.getLogger(classOf[ParaDispatcher])
 
-  // Set at low number for testing purposes
-  val RANGE = 100
+
+  val RANGE = 5000
 
   // Env variable specified in client k8's deployment yaml
   // k8's will resolve the service name via DNS to the service proxy, which in turn forwards the
@@ -71,11 +71,11 @@ class ParaDispatcher {
       (n, begin)
     }
 
-    // Make each unary blocking RPC in its own thread, using the same channel
+    // Make each unary blocking RPC in its own thread
     val results = ranges.map { bounds =>
       val (n, begin) = bounds
 
-      val client = new ParaWorkerClient(channelToWorker)
+      val client = new ParaWorkerClient(ManagedChannelBuilder.forTarget(s"${wHost}:${wPort}").usePlaintext().build)
 
       logger.info("Sending partition n={}, begin={}", n, begin)
 

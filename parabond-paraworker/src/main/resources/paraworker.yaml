@@ -17,6 +17,15 @@ spec:
       containers:
       - name: paraworker-server
         image: jonathansavas/parabond-paraworker:1.0.0-SNAPSHOT
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "4"
+          requests:
+            cpu: "3"
+        args:
+          - -cpus
+          - "4"
         env:
           - name: MONGO_SVC_HOST
             value: mongo-0.mongo

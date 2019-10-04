@@ -37,6 +37,12 @@ spec:
       containers:
         - name: mongo
           image: mongo
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "4"
+            requests:
+              cpu: "3"
           command:
             - mongod
             - "--bind_ip"
@@ -55,7 +61,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 2Gi
+          storage: 1Gi
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding

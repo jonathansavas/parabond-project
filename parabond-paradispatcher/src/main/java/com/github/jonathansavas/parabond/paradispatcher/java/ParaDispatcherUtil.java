@@ -30,7 +30,7 @@ public class ParaDispatcherUtil {
   }
 
   /**
-   * Get value from environment variable.
+   * Get String value from environment variable.
    * @param env Name of environment variable
    * @param defaultEnv Default value
    * @return Variable value
@@ -38,5 +38,16 @@ public class ParaDispatcherUtil {
   public static String getStringEnvOrElse(String env, String defaultEnv) {
     String var = System.getenv(env);
     return var == null || var.isEmpty() ? defaultEnv : var;
+  }
+
+  /**
+   * Get int value from environment variable.
+   * @param env Name of environment variable
+   * @param defaultEnv Default value
+   * @return Variable value
+   */
+  public static int getIntEnvOrElse(String env, int defaultEnv) {
+    String var = System.getenv(env);
+    return var == null || var.isEmpty() ? defaultEnv : Integer.parseInt(var);
   }
 }

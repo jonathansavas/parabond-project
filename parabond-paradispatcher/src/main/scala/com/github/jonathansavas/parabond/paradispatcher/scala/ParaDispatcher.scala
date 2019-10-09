@@ -17,7 +17,7 @@ class ParaDispatcher {
   val logger = LogManager.getLogger(classOf[ParaDispatcher])
 
 
-  val RANGE = 5000
+  val RANGE = ParaDispatcherUtil.getIntEnvOrElse("RANGE", 5000)
 
   // Env variable specified in client k8's deployment yaml
   // k8's will resolve the service name via DNS to the service proxy, which in turn forwards the
@@ -52,6 +52,7 @@ class ParaDispatcher {
   def dispatch(jobSize: GrpcJobSize): GrpcJobInfo = {
     val size = jobSize.getN
 
+    logger.info("Available processors: {}", Runtime.getRuntime.availableProcessors)
     logger.info("creating and sending partitions for n = {}", size)
 
     val portfIds = checkReset(size, 0)

@@ -19,12 +19,12 @@ spec:
         image: jonathansavas/parabond-paradispatcher:1.0.0-SNAPSHOT
         resources:
           limits:
-            cpu: "4"
-          requests:
-            cpu: "3"
-        args:
-          - -cpus
-          - "4"
+            cpu: "2"
+#          requests:
+#            cpu: "3"
+#        args:
+#          - -cpus
+#          - "4"
         imagePullPolicy: Always
         env:
           - name: MONGO_SVC_HOST
@@ -33,6 +33,8 @@ spec:
             value: paraworker-server
           - name: PARAWORKER_SVC_PORT
             value: "9999"
+          - name: RANGE
+            value: "100"
         ports:
         - name: grpc
           containerPort: 9898

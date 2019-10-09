@@ -22,6 +22,8 @@ class ParaWorker {
     * @return GrpcResult containing timing information about the parition analysis
     */
   def work(grpcPartition: GrpcPartition): GrpcResult = {
+    logger.info("Available processors: {}", Runtime.getRuntime.availableProcessors)
+
     val partition = Partition(grpcPartition.getN, grpcPartition.getBegin)
 
     val analysis = node.analyze(partition)

@@ -2,7 +2,7 @@ package com.github.jonathansavas.parabond.paraworker.scala
 
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.{GrpcPartition, GrpcResult}
 import org.apache.logging.log4j.LogManager
-import parabond.cluster.{FineGrainedNode, Partition}
+import parabond.cluster.{CoarseGrainedNode, Partition}
 
 /**
   * Worker class to analyze a partition of bond portfolios. Queries a
@@ -14,7 +14,7 @@ class ParaWorker {
 
   logger.info("ParaWorker created")
 
-  val node = new FineGrainedNode
+  val node = new CoarseGrainedNode
 
   /**
     * Analyzes a partition of portfolios

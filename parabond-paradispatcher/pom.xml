@@ -110,6 +110,10 @@
                         <ports>
                             <port>${server.port}</port>
                         </ports>
+                        <jvmFlags>
+                            <jvmFlag>-Dscala.concurrent.context.numThreads=12</jvmFlag>
+                            <jvmFlag>-Dscala.concurrent.context.maxThreads=24</jvmFlag>
+                        </jvmFlags>
                     </container>
                     <containerizingMode>packaged</containerizingMode>
                     <extraDirectories>

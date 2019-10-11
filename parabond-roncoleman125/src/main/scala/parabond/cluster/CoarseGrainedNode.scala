@@ -106,11 +106,11 @@ class CoarseGrainedNode extends Node {
     // Block the indices according to number of cores: each core gets a single clock.
     val numCores = getPropertyOrElse("cores",Runtime.getRuntime.availableProcessors)
 
-    val blksize = partition.n / numCores
+    val blksize = (partition.n.toDouble / numCores).ceil.toInt
 
     val blocks = for(core <- 0 until numCores) yield {
       val start = core * blksize
-      val finish = start + blksize
+      val finish = start + blksize min jobs.length
 
       jobs.slice(start, finish)
     }

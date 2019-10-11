@@ -26,6 +26,7 @@
         <log4j.version>2.12.1</log4j.version>
         <mongo-java-driver.version>3.0.0</mongo-java-driver.version>
         <jib-maven-plugin.version>1.6.1</jib-maven-plugin.version>
+        <kubernetes-client-java.version>5.0.0</kubernetes-client-java.version>
     </properties>
 
 </project>

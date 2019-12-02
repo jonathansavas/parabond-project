@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "paradispatcher.proto";
+
 option java_package = "com.github.jonathansavas.parabond.ParaWorker";
 option java_outer_classname = "ParaWorkerProto";
 
@@ -16,9 +18,7 @@ message GrpcPartition {
 }
 
 message GrpcResult {
-    int32 portfId = 1;
-    double value = 2;
-    int32 bondCount = 3;
-    int64 t0 = 4;
-    int64 t1 = 5;
+    int64 t0 = 1;
+    int64 t1 = 2;
+    repeated GrpcPortf portfs = 3;
 }

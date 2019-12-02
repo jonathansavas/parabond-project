@@ -1,8 +1,10 @@
 package com.github.jonathansavas.parabond.paraworker.scala
 
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcPortf
 import com.github.jonathansavas.parabond.ParaWorker.ParaWorkerProto.{GrpcPartition, GrpcResult}
 import org.apache.logging.log4j.LogManager
 import parabond.cluster.{BasicNode, CoarseGrainedNode, Partition}
+import scala.collection.JavaConverters._
 
 /**
   * Worker class to analyze a partition of bond portfolios. Queries a
@@ -34,6 +36,17 @@ class ParaWorker {
       sum + time
     }
 
-    GrpcResult.newBuilder().setT1(partialT1).setT0(0).build();
+    val portfs = analysis.results.map { job =>
+      GrpcPortf.newBuilder()
+               .setId(job.result.portfId)
+               .setValue(job.result.value)
+               .build
+    }
+
+    GrpcResult.newBuilder()
+      .setT1(partialT1)
+      .setT0(0)
+      .addAllPortfs(portfs.toList.asJava)
+      .build
   }
 }

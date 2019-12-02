@@ -1,6 +1,10 @@
 package com.github.jonathansavas.parabond.paradispatcher.java;
 
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherGrpc;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcInstrumentId;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcBond;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcPortf;
 import com.github.jonathansavas.parabond.paradispatcher.scala.ParaDispatcher;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -141,6 +145,18 @@ public class ParaDispatcherServer {
     @Override
     public void dispatch(GrpcJobSize jobSize, StreamObserver<GrpcJobInfo> responseObserver) {
       responseObserver.onNext(new ParaDispatcher().dispatch(jobSize));
+      responseObserver.onCompleted();
+    }
+
+    @Override
+    public void queryBond(GrpcInstrumentId bondId, StreamObserver<GrpcBond> responseObserver) {
+      responseObserver.onNext(new ParaDispatcher().queryBond(bondId));
+      responseObserver.onCompleted();
+    }
+
+    @Override
+    public void queryPortfolio(GrpcInstrumentId portfId, StreamObserver<GrpcPortf> responseObserver) {
+      responseObserver.onNext(new ParaDispatcher().queryPortfolio(portfId));
       responseObserver.onCompleted();
     }
   }

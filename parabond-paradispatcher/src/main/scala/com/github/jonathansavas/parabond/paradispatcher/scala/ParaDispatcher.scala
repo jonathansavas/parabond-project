@@ -2,13 +2,17 @@ package com.github.jonathansavas.parabond.paradispatcher.scala
 
 import java.util.concurrent.TimeUnit
 
-import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.{GrpcJobInfo, GrpcJobSize}
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.{GrpcBond, GrpcInstrumentId, GrpcJobInfo, GrpcJobSize, GrpcPortf}
 import com.github.jonathansavas.parabond.paradispatcher.java.{ClusterClient, ParaDispatcherUtil}
 import com.github.jonathansavas.parabond.paraworker.java.ParaWorkerClient
 import io.grpc.ManagedChannelBuilder
 import org.apache.logging.log4j.LogManager
-import parabond.cluster._
-import parabond.util.Result
+import parabond.casa.{MongoDbObject, MongoHelper}
+import parabond.cluster.BasicNode
+import parabond.util.{Helper, Job, Result}
+import parabond.value.SimpleBondValuator
+
+import scala.collection.JavaConverters._
 
 /**
   * Dispatcher class to partition the analysis work. Checks the
@@ -18,6 +22,7 @@ import parabond.util.Result
 class ParaDispatcher {
   val logger = LogManager.getLogger(classOf[ParaDispatcher])
   val clusterClient = new ClusterClient
+  val node = new BasicNode
 
   // Env variable specified in client k8's deployment yaml
   // k8's will resolve the service name via DNS to the service proxy, which in turn forwards the
@@ -56,11 +61,13 @@ class ParaDispatcher {
     logger.info("Available processors: {}", Runtime.getRuntime.availableProcessors)
     logger.info("creating and sending partitions for n = {}", size)
 
-    val portfIds = checkReset(size, 0)
+    //val portfIds = checkReset(size, 0)
 
     val parT0 = System.nanoTime
 
+    // Query Kubernetes cluster for this information
     val numWorkers = clusterClient.getNumPodsAllNamespaces("run=paraworker-server")
+
     val range = (size.toDouble / numWorkers).ceil.toInt
 
     // All subsequent operations on "partitions" will now be done in parallel threads
@@ -86,7 +93,7 @@ class ParaDispatcher {
 
       logger.info("Received result: {}", grpcResult)
 
-      Result(grpcResult.getT0, grpcResult.getT1)
+      Result(grpcResult.getT0, grpcResult.getT1, grpcResult.getPortfsList.asScala.toList)
     }
 
     channelToWorker.shutdown.awaitTermination(5, TimeUnit.SECONDS)
@@ -102,8 +109,44 @@ class ParaDispatcher {
     }
 
     // Check for database misses, should be none
-    val misses = check(portfIds)
+    //val misses = check(portfIds)
 
-    GrpcJobInfo.newBuilder().setT1(serialT1).setTN(parTN).setMisses(misses.length).build()
+    GrpcJobInfo.newBuilder()
+               .setT1(serialT1)
+               .setTN(parTN)
+               .addAllPortfs(results.reduce { (res1, res2) => res1.portfs ::: res2.portfs }.asJava)
+               .build()
+  }
+
+  def queryBond(bondId: GrpcInstrumentId): GrpcBond = {
+    val id = bondId.getId
+
+    val bondQuery = MongoDbObject("id" -> id)
+
+    val bondCursor = MongoHelper.bondCollection.find(bondQuery)
+
+    val bond = MongoHelper.asBond(bondCursor)
+
+    val price = new SimpleBondValuator(bond, Helper.yieldCurve).price
+
+    GrpcBond.newBuilder().setId(bond.id)
+                         .setCoupon(bond.coupon)
+                         .setFreq(bond.freq)
+                         .setTenor(bond.tenor)
+                         .setMaturity(bond.maturity)
+                         .setValue(price)
+                         .build()
+  }
+
+  def queryPortfolio(portfId: GrpcInstrumentId): GrpcPortf = {
+    val job = node.price(Job(portfId.getId))
+
+    val bondIds = job.bonds.map { simpleBond => simpleBond.id}
+
+    GrpcPortf.newBuilder()
+             .setId(job.portfId)
+             .setValue(job.result.value)
+             .addAllBondIds(bondIds.asJava)
+             .build()
   }
 }

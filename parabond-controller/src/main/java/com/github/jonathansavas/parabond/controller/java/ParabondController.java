@@ -1,5 +1,6 @@
 package com.github.jonathansavas.parabond.controller.java;
 
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.boot.*;
@@ -31,15 +32,38 @@ public class ParabondController {
    * Endpoint to price a job and return timing information.
    * @param size Number of portfolios to analyze
    * @return Response with information about the request
-   * @throws InterruptedException
    */
   @RequestMapping("/price")
-  public Response timePricingRequest(@RequestParam(value="size", defaultValue="25000") int size) throws InterruptedException {
+  public BatchResponse timePricingRequest(@RequestParam(value="size", defaultValue="100") int size) {
     if (size < 1) size = 1;
-    if (size > 100000) size = 100000;
+    else if (size > 100000) size = 100000;
+
     ParaDispatcherClient client = new ParaDispatcherClient(channelToDispatcher);
     GrpcJobInfo info = client.processJob(size);
-    return new Response(info, size);
+
+    return new BatchResponse(info, size);
+  }
+
+  @RequestMapping("/query/bond")
+  public BondResponse queryBond(@RequestParam(value="id", defaultValue = "1") int id) {
+    if (id < 1) id = 1;
+    else if (id > 5000) id = 5000;
+
+    ParaDispatcherClient client = new ParaDispatcherClient(channelToDispatcher);
+    ParaDispatcherProto.GrpcBond bond = client.queryBond(id);
+
+    return new BondResponse(bond);
+  }
+
+  @RequestMapping("/query/portfolio")
+  public PortfResponse queryPortfolio(@RequestParam(value="id", defaultValue = "1") int id) {
+    if (id < 1) id = 1;
+    else if (id > 100000) id = 100000;
+
+    ParaDispatcherClient client = new ParaDispatcherClient(channelToDispatcher);
+    ParaDispatcherProto.GrpcPortf portfolio = client.queryPortfolio(id);
+    
+    return new PortfResponse(portfolio);
   }
 
   /**

@@ -26,6 +26,7 @@
  */
 package parabond.util
 
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcPortf
 import parabond.entry.SimpleBond
 import parabond.util.Constant.NONE
 
@@ -34,20 +35,40 @@ import parabond.util.Constant.NONE
  */
 object Result {
   /**
-    * Creates a result given start and end times.
-    * @param t0 Start time
-    * @param t1 Finish time
-    * @return Result
-    */
-  def apply(t0: Long, t1: Long): Result = Result(NONE, 0, 0, t0, t1)
+   * Creates a result given start and end times.
+   * @param t0 Start time
+   * @param t1 Finish time
+   * @return Result
+   */
+  def apply(t0: Long, t1: Long): Result = Result(NONE, 0, 0, t0, t1, null)
+
+  /**
+   * Creates a result given start and end times, and portf list.
+   * @param t0 Start time
+   * @param t1 Finish time
+   * @param portfs List of GrpcPortfs
+   * @return Result
+   */
+  def apply(t0: Long, t1: Long, portfs: List[GrpcPortf]): Result = Result(NONE, 0, 0, t0, t1, portfs)
 
   /**
     * Creates a result given only T1.
     * @param dt T1 time
     * @return Result
     */
-  def apply(dt: Long): Result = Result(NONE, 0, 0, System.nanoTime, System.nanoTime + dt)
+  def apply(dt: Long): Result = Result(NONE, 0, 0, System.nanoTime, System.nanoTime + dt, null)
+
+  /**
+   * Creates a result given portfId, value, bondCount, start time, and end time
+   * @param portfId Portfolio id
+   * @param value Portfoio value
+   * @param bondCount Bonds in this portfolio
+   * @param t0 Start time
+   * @param t1 Finish time
+   */
+  def apply(portfId: Int, value: Double, bondCount: Int, t0: Long, t1: Long): Result = Result(portfId, value, bondCount, t0, t1, null)
 }
+
 
 /**
   * Result class
@@ -57,7 +78,7 @@ object Result {
   * @param t0 Start time
   * @param t1 Finish time
   */
-case class Result(portfId: Int, value: Double, bondCount: Int, t0: Long, t1: Long) extends Serializable
+case class Result(portfId: Int, value: Double, bondCount: Int, t0: Long, t1: Long, portfs: List[GrpcPortf]) extends Serializable
   
 /**
  * Data mapped between input and output of price method

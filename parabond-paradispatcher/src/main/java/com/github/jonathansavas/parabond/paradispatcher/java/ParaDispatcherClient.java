@@ -3,6 +3,10 @@ package com.github.jonathansavas.parabond.paradispatcher.java;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherGrpc;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherGrpc.ParaDispatcherBlockingStub;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherGrpc.ParaDispatcherStub;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcBond;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcPortf;
+import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcInstrumentId;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcJobInfo;
 import com.github.jonathansavas.parabond.ParaDispatcher.ParaDispatcherProto.GrpcJobSize;
 import io.grpc.ManagedChannel;
@@ -76,5 +80,27 @@ public class ParaDispatcherClient {
       return null;
     }
     return info;
+  }
+
+  public GrpcBond queryBond(int id) {
+    GrpcBond bond;
+    try {
+      bond = blockingStub.queryBond(GrpcInstrumentId.newBuilder().setId(id).build());
+    } catch (StatusRuntimeException e) {
+      logger.warn("RPC failed: {}", e.getStatus());
+      return null;
+    }
+    return bond;
+  }
+
+  public GrpcPortf queryPortfolio(int id) {
+    GrpcPortf portf;
+    try {
+      portf = blockingStub.queryPortfolio(GrpcInstrumentId.newBuilder().setId(id).build());
+    } catch (StatusRuntimeException e) {
+      logger.warn("RPC failed: {}", e.getStatus());
+      return null;
+    }
+    return portf;
   }
 }

@@ -16,8 +16,11 @@ spec:
     spec:
       containers:
         - name: controller
-          image: jonathansavas/parabond-controller:1.0.0-SNAPSHOT
+          image: jonathansavas/parabond:controller-1.0.0-SNAPSHOT-marist-project
           imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "1"
           env:
             - name: PARADISPATCHER_SVC_HOST
               value: paradispatcher-server

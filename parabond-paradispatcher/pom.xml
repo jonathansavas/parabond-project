@@ -48,12 +48,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.12.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.12.1</version>
         </dependency>
         <dependency>
             <groupId>io.kubernetes</groupId>
@@ -110,7 +110,7 @@
                 <version>${jib-maven-plugin.version}</version>
                 <configuration>
                     <to>
-                        <image>docker.io/jonathansavas/${project.artifactId}:${project.version}</image>
+                        <image>docker.io/jonathansavas/parabond:paradispatcher-${project.version}-marist-project</image>
                         <credHelper>wincred</credHelper>
                     </to>
                     <container>

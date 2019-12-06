@@ -111,10 +111,14 @@ class ParaDispatcher {
     // Check for database misses, should be none
     //val misses = check(portfIds)
 
+    val portfList = results.foldLeft(List[GrpcPortf]()) { (lst, res) =>
+      lst ::: res.portfs
+    }
+
     GrpcJobInfo.newBuilder()
                .setT1(serialT1)
                .setTN(parTN)
-               .addAllPortfs(results.reduce { (res1, res2) => res1.portfs ::: res2.portfs }.asJava)
+               .addAllPortfs(portfList.asJava)
                .build()
   }
 
@@ -141,7 +145,7 @@ class ParaDispatcher {
   def queryPortfolio(portfId: GrpcInstrumentId): GrpcPortf = {
     val job = node.price(Job(portfId.getId))
 
-    val bondIds = job.bonds.map { simpleBond => simpleBond.id}
+    val bondIds = job.bonds.map { simpleBond => new Integer(simpleBond.id)}
 
     GrpcPortf.newBuilder()
              .setId(job.portfId)

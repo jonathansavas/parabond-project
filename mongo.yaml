@@ -41,8 +41,6 @@ spec:
           resources:
             limits:
               cpu: "3"
-#            requests:
-#              cpu: "3"
           command:
             - mongod
             - "--bind_ip"

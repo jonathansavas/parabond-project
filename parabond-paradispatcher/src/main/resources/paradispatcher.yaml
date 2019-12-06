@@ -16,15 +16,12 @@ spec:
     spec:
       containers:
       - name: paradispatcher-server
-        image: jonathansavas/parabond-paradispatcher:1.0.0-SNAPSHOT
+        image: jonathansavas/parabond:paradispatcher-1.0.0-SNAPSHOT-marist-project
         resources:
           limits:
             cpu: "2"
-#          requests:
-#            cpu: "3"
-#        args:
-#          - -cpus
-#          - "4"
+          requests:
+            cpu: "1"
         imagePullPolicy: Always
         env:
           - name: MONGO_SVC_HOST

@@ -143,9 +143,12 @@ class ParaDispatcher {
   }
 
   def queryPortfolio(portfId: GrpcInstrumentId): GrpcPortf = {
-    val job = node.price(Job(portfId.getId))
+    val id = portfId.getId
+    val job = node.price(Job(id))
 
-    val bondIds = job.bonds.map { simpleBond => new Integer(simpleBond.id)}
+    val bondIds = MongoHelper.asList(
+        MongoHelper.portfolioCollection.find(MongoDbObject("id" -> id)), "instruments"
+      ).map { i => new Integer(i) }
 
     GrpcPortf.newBuilder()
              .setId(job.portfId)

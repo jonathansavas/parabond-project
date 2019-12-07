@@ -31,6 +31,8 @@ public class ParabondController {
   String dHost = ParaDispatcherUtil.getStringEnvOrElse(HOST_ENV, DEFAULT_DISPATCHER_HOST);
   String dPort = ParaDispatcherUtil.getStringEnvOrElse(PORT_ENV, DEFAULT_DISPATCHER_PORT);
 
+  String PW = ParaDispatcherUtil.getStringEnvOrElse("SECRET_PASSWORD", "KubernetesSecret");
+
   ManagedChannel channelToDispatcher = ManagedChannelBuilder.forTarget(dHost + ":" + dPort).usePlaintext().build();
 
   /**
@@ -106,7 +108,7 @@ public class ParabondController {
 
     String password = new String(decoder.decode(encPw[1]));
 
-    if (!password.equals("KubernetesSecret")) {
+    if (!password.equals(PW)) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
   }

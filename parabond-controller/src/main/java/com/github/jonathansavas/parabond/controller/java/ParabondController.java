@@ -40,7 +40,7 @@ public class ParabondController {
    * @param size Number of portfolios to analyze
    * @return Response with information about the request
    */
-  @RequestMapping("/price")
+  @RequestMapping("/price/batch")
   public BatchResponse timePricingRequest(@RequestParam(value="size", defaultValue="100") int size,
                                           @RequestHeader("Authorization") String auth) {
 
